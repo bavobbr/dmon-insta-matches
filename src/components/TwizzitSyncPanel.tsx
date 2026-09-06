@@ -417,12 +417,12 @@ export const TwizzitSyncPanel: React.FC<TwizzitSyncPanelProps> = ({
               <label className="text-xs font-semibold text-slate-600 block mb-1">Twizzit API Account</label>
               <input
                 type="text"
-                value="matches"
+                value="Geconfigureerd via server (ENV)"
                 disabled
                 className="w-full text-xs font-mono px-3 py-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-700 cursor-not-allowed"
               />
               <span className="text-[10px] text-emerald-600 font-medium mt-0.5 block">
-                ✓ Geauthenticeerd via Twizzit REST OAuth endpoint
+                ✓ Geauthenticeerd via Twizzit REST API endpoint
               </span>
             </div>
 

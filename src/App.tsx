@@ -94,11 +94,11 @@ export default function App() {
     weekendLayout: 'columns'
   });
 
-  // Twizzit API Configuration
+  // Twizzit API Configuration (Managed server-side via environment variables)
   const [twizzitConfig, setTwizzitConfig] = useState<TwizzitConfig>({
-    clientId: 'matches',
+    clientId: 'twizzit_api',
     clientSecret: '••••••••••••••••••••',
-    apiKey: 'twizzit_live_jwt',
+    apiKey: 'twizzit_jwt',
     organizationId: '32037',
     clubName: 'D-Mon Hockey Dendermonde',
     homeVenueKeyword: 'Dendermonde, D-Mon, Sint-Gillis',

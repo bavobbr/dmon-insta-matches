@@ -37,11 +37,11 @@ if (!fs.existsSync(GENERATED_DIR)) {
 const INSTAGRAM_ACCOUNT_ID = process.env.INSTAGRAM_ACCOUNT_ID || '';
 const INSTAGRAM_ACCESS_TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN || '';
 
-// App Access Credentials (Configure via APP_AUTH_USER and APP_AUTH_PASSWORD env vars)
-const APP_AUTH_USER = process.env.APP_AUTH_USER || 'dmon';
-const APP_AUTH_PASSWORD = process.env.APP_AUTH_PASSWORD || '9200';
+// App Access Credentials (Must be configured via APP_AUTH_USER and APP_AUTH_PASSWORD env vars)
+const APP_AUTH_USER = process.env.APP_AUTH_USER || '';
+const APP_AUTH_PASSWORD = process.env.APP_AUTH_PASSWORD || '';
 // Session token secret (can be overridden via AUTH_SECRET_TOKEN env var)
-const AUTH_SECRET_TOKEN = process.env.AUTH_SECRET_TOKEN || 'dmon_auth_session_token_9200_valid';
+const AUTH_SECRET_TOKEN = process.env.AUTH_SECRET_TOKEN || 'dmon_app_secure_session_token_authorized';
 
 interface TwizzitStats {
   month: string; // "2026-09"
@@ -267,6 +267,11 @@ function detectCategory(teamStr: string): string {
 // 0. Authentication endpoints
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body || {};
+  if (!APP_AUTH_USER || !APP_AUTH_PASSWORD) {
+    return res.status(500).json({
+      error: 'Inloggegevens (APP_AUTH_USER / APP_AUTH_PASSWORD) ontbreken in de omgevingsvariabelen.'
+    });
+  }
   if (
     username &&
     password &&

@@ -39,8 +39,8 @@ TWIZZIT_PASSWORD="jouw_twizzit_wachtwoord"
 TWIZZIT_ORG_ID="32037"
 
 # Toegang tot de Webapp
-APP_AUTH_USER="dmon"
-APP_AUTH_PASSWORD="9200"
+APP_AUTH_USER="jouw_beheerdersnaam"
+APP_AUTH_PASSWORD="jouw_sterk_wachtwoord"
 
 # Instagram Meta Graph API
 INSTAGRAM_ACCOUNT_ID="17841409458406570"
