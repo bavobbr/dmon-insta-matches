@@ -1,0 +1,46 @@
+import { PhotoPoolItem } from '../types';
+
+export const INITIAL_PHOTO_POOL: PhotoPoolItem[] = [
+  {
+    id: 'photo-1',
+    title: 'Youth Team Huddle (D-Mon Blauw & Rood)',
+    photographer: 'Coach Sarah',
+    url: '/photos/photo-1.jpg',
+    aspectRatio: '1:1'
+  },
+  {
+    id: 'photo-2',
+    title: 'Hockey Turf Match Sprint',
+    photographer: 'Coach Thomas',
+    url: '/photos/photo-2.jpg',
+    aspectRatio: '9:16'
+  },
+  {
+    id: 'photo-3',
+    title: 'Junior Stick Dribble & Balcontrole',
+    photographer: 'Coach Bart',
+    url: '/photos/photo-3.jpg',
+    aspectRatio: '1:1'
+  },
+  {
+    id: 'photo-4',
+    title: 'Team High-Five & Overwinning',
+    photographer: 'Coach Pieter',
+    url: '/photos/photo-4.jpg',
+    aspectRatio: '1:1'
+  },
+  {
+    id: 'photo-5',
+    title: 'Goalie Uitrusting & Veldactie',
+    photographer: 'Coach Dimitri',
+    url: '/photos/photo-5.jpg',
+    aspectRatio: '9:16'
+  },
+  {
+    id: 'photo-6',
+    title: 'Avondtraining D-Mon Waterveld',
+    photographer: 'Coach Elena',
+    url: '/photos/photo-6.jpg',
+    aspectRatio: '9:16'
+  }
+];

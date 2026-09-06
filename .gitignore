@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Runtime uploads & generated test exports
+public/uploads/*
+!public/uploads/.gitkeep
+public/generated/*
+!public/generated/.gitkeep
+

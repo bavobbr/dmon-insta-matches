@@ -1,0 +1,6 @@
+{
+  "name": "D-Mon Hockey Match Announcer",
+  "description": "Automated match graphic generator and Instagram publisher for D-Mon Hockey weekend home games using Twizzit match data and club brand kit.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
