@@ -57,30 +57,30 @@ De applicatie maakt gebruik van een **high-resolution HTML5 Canvas rendering eng
 
 ```mermaid
 flowchart TD
-    A[Start: Wekelijkse trigger of Coach klik] --> B[Twizzit API Synchronisatie]
-    B --> C{Zijn er thuismatchen?}
+    A["Start: Wekelijkse trigger of Coach klik"] --> B["Twizzit API Synchronisatie"]
+    B --> C{"Zijn er thuismatchen?"}
     
-    C -- Nee --> D[No-Match Rule: Geen post aanmaken]
-    D --> E[Status log: 0 thuismatchen geregistreerd]
+    C -- Nee --> D["No-Match Rule: Geen post aanmaken"]
+    D --> E["Status log: 0 thuismatchen geregistreerd"]
     
-    C -- Ja --> F[Data normalisatie & Groepering per dag & aftrap-uur]
-    F --> G[Selecteer clubfoto & Brand kit instellingen]
+    C -- Ja --> F["Data normalisatie & Groepering per dag & aftrap-uur"]
+    F --> G["Selecteer clubfoto & Brand kit instellingen"]
     
-    subgraph HTML5_Canvas_Engine [HTML5 Canvas Rendering Engine (1080x1920)]
-        H[Laag 1: Foto Cover-Fill + Gradient Overlay] --> I[Laag 2: Clubblauw Vlak + SVG Hockeyveld Lijnen]
-        I --> J[Laag 3: D-Mon Logo Badge + Dynamic Header]
-        J --> K[Laag 4: Adaptive Match Rooster & Tijdslot Groepering]
-        K --> L[Laag 5: Footer, Vrijwilligersbadge & Handle @dmon_hockey]
+    subgraph HTML5_Canvas_Engine ["HTML5 Canvas Rendering Engine (1080x1920)"]
+        H["Laag 1: Foto Cover-Fill + Gradient Overlay"] --> I["Laag 2: Clubblauw Vlak + SVG Hockeyveld Lijnen"]
+        I --> J["Laag 3: D-Mon Logo Badge + Dynamic Header"]
+        J --> K["Laag 4: Adaptive Match Rooster & Tijdslot Groepering"]
+        K --> L["Laag 5: Footer, Vrijwilligersbadge & Handle @dmon_hockey"]
     end
     
     G --> H
-    L --> M[Export: Canvas naar JPEG 95% Kwaliteit]
+    L --> M["Export: Canvas naar JPEG 95% Kwaliteit"]
     
-    M --> N{Publicatie methode}
-    N -- Download --> O[Directe JPEG Download naar apparaat]
-    N -- Instagram Story --> P[POST /api/instagram/publish]
-    P --> Q[Meta Graph API: Upload naar Media Container]
-    Q --> R[Meta Graph API: Container Publiceren naar IG Story]
+    M --> N{"Publicatie methode"}
+    N -- Download --> O["Directe JPEG Download naar apparaat"]
+    N -- Instagram Story --> P["POST /api/instagram/publish"]
+    P --> Q["Meta Graph API: Upload naar Media Container"]
+    Q --> R["Meta Graph API: Container Publiceren naar IG Story"]
 ```
 
 ---
@@ -115,9 +115,9 @@ sequenceDiagram
         UI->>Engine: canvas.toDataURL('image/jpeg', 0.95)
         UI->>Server: POST /api/instagram/publish (Base64 payload)
         Server->>Server: Converteer naar tijdelijk publiek bestand
-        Server->>Meta: POST /{ig_user_id}/media (image_url, media_type=STORIES)
+        Server->>Meta: POST /IG_USER_ID/media (image_url, media_type=STORIES)
         Meta-->>Server: Creation ID (Media container)
-        Server->>Meta: POST /{ig_user_id}/media_publish (creation_id)
+        Server->>Meta: POST /IG_USER_ID/media_publish (creation_id)
         Meta-->>Server: Success (Post ID)
         Server-->>UI: 200 OK (Gepubliceerd)
         UI-->>Gebruiker: Bevestigingsbericht met link naar Instagram

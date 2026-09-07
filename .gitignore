@@ -9,7 +9,5 @@ coverage/
 
 # Runtime uploads & generated test exports
 public/uploads/*
-!public/uploads/.gitkeep
 public/generated/*
-!public/generated/.gitkeep
 
