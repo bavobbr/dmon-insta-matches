@@ -1,7 +1,7 @@
 import React from 'react';
-import { BRAND_COLORS, DMON_LOGO_URL } from '../brand';
+import { BRAND_COLORS, DMON_LOGO_URL } from '../../brand';
 import { Play, Sparkles, Instagram, Database, Calendar, Palette, LogOut, UserCheck } from 'lucide-react';
-import { AuthUser } from '../types';
+import { AuthUser } from '../../shared/types';
 
 interface NavbarProps {
   activeTab: 'studio' | 'twizzit' | 'automation' | 'brand';

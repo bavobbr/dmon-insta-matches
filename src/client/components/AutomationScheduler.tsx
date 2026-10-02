@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SchedulerConfig, ExecutionLog, Match } from '../types';
+import { SchedulerConfig, ExecutionLog, Match } from '../../shared/types';
 import { 
   Calendar, 
   Clock, 

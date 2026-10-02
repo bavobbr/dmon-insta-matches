@@ -1,0 +1,4091 @@
+{
+  "login and verification": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "token": "session",
+          "user": {
+            "username": "Staff",
+            "displayName": "D-Mon Staff"
+          }
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "success": false,
+          "error": "Onjuiste gebruikersnaam of wachtwoord. Neem contact op met het clubbestuur."
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "authenticated": true,
+          "user": {
+            "username": "Staff",
+            "displayName": "D-Mon Staff"
+          }
+        }
+      },
+      {
+        "status": 401,
+        "body": {
+          "authenticated": false
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "status": "ok",
+          "timestamp": "2026-10-02T10:00:00.000Z"
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "missing auth configuration": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "error": "Inloggegevens (APP_AUTH_USER / APP_AUTH_PASSWORD) ontbreken in de omgevingsvariabelen."
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "live matches then cache hit then force refresh": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": true,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 9,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "stats": {
+            "month": "2026-10",
+            "queriesCount": 9,
+            "monthlyLimit": 500,
+            "defaultTtlMinutes": 240,
+            "history": [
+              {
+                "timestamp": "2026-10-02T10:00:00.000Z",
+                "endpoint": "/v2/api/events",
+                "description": "Matchen voor 2026-10-03 t/m 2026-10-04"
+              },
+              {
+                "timestamp": "2026-10-02T10:00:00.000Z",
+                "endpoint": "/v2/api/events",
+                "description": "Matchen voor 2026-10-03 t/m 2026-10-04"
+              }
+            ],
+            "lastQueryAt": "2026-10-02T10:00:00.000Z"
+          },
+          "cachedRangesCount": 1,
+          "cachedRanges": [
+            {
+              "key": "2026-10-03_2026-10-04_32037",
+              "startDate": "2026-10-03",
+              "endDate": "2026-10-04",
+              "matchesCount": 3,
+              "homeMatchesCount": 2,
+              "cachedAt": "2026-10-02T10:00:00.000Z",
+              "ttlMinutes": 240,
+              "remainingMinutes": 240
+            }
+          ]
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ],
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 9,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    },\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "default weekend": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "valid persisted match cache": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 1,
+          "homeMatchesCount": 1,
+          "matches": [
+            {
+              "id": "cached",
+              "day": "Saturday",
+              "time": "10u00",
+              "isHome": true
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "cached",
+              "day": "Saturday",
+              "time": "10u00",
+              "isHome": true
+            }
+          ],
+          "cached": true,
+          "cachedAt": "2026-10-02T06:01:00.000Z",
+          "expiresAt": "2026-10-02T10:01:00.000Z",
+          "remainingMinutes": 1,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 7,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "expired persisted match cache": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "query counting after failed auth": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "Twizzit authentication failed (401): {\"error\":\"Invalid credentials\"}"
+        }
+      },
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "connected": false,
+          "error": "Twizzit authentication failed (401): {\"error\":\"Invalid credentials\"}"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      }
+    ],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Twizzit Fetch Error:",
+        "Twizzit authentication failed (401): {\"error\":\"Invalid credentials\"}"
+      ]
+    ]
+  },
+  "missing Twizzit credentials": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "Twizzit credentials (TWIZZIT_USERNAME of TWIZZIT_PASSWORD) ontbreken in de omgevingsvariabelen."
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Twizzit Fetch Error:",
+        "Twizzit credentials (TWIZZIT_USERNAME of TWIZZIT_PASSWORD) ontbreken in de omgevingsvariabelen."
+      ]
+    ]
+  },
+  "missing Twizzit token": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "No token returned from Twizzit authentication"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      }
+    ],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Twizzit Fetch Error:",
+        "No token returned from Twizzit authentication"
+      ]
+    ]
+  },
+  "token refresh buffer": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "queryRange": {
+            "startDate": "2026-10-03",
+            "endDate": "2026-10-04"
+          },
+          "totalMatchesCount": 3,
+          "homeMatchesCount": 2,
+          "matches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-3",
+              "twizzitId": "3",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "14u00",
+              "homeTeam": "D-Mon Dames 1",
+              "awayTeam": "Antwerp",
+              "displayMatchText": "Antwerp - D-Mon Dames 1",
+              "category": "Seniors",
+              "isHome": false,
+              "field": "Uitwedstrijd",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 14:00:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "homeMatches": [
+            {
+              "id": "twizzit-1",
+              "twizzitId": "1",
+              "day": "Saturday",
+              "dateStr": "Za 3 oktober",
+              "time": "09u05",
+              "homeTeam": "Dendermonde Heren 1",
+              "awayTeam": "Dragons",
+              "displayMatchText": "Dendermonde Heren 1 - Dragons",
+              "category": "Heren",
+              "isHome": true,
+              "field": "Veld 1 (Waterveld)",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-03 09:05:00"
+              }
+            },
+            {
+              "id": "twizzit-2",
+              "twizzitId": "2",
+              "day": "Sunday",
+              "dateStr": "Zo 4 oktober",
+              "time": "12u15",
+              "homeTeam": "D-Mon U12G-1",
+              "awayTeam": "Gantoise",
+              "displayMatchText": "D-Mon U12G-1 - Gantoise",
+              "category": "U12",
+              "isHome": true,
+              "field": "Veld 2",
+              "status": "scheduled",
+              "rawEvent": {
+                "start": "2026-10-04 12:15:00",
+                "end": "2026-10-04 13:15:00",
+                "address": "Veld 2"
+              }
+            }
+          ],
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "expiresAt": "2026-10-02T14:00:00.000Z",
+          "remainingMinutes": 240,
+          "ttlMinutes": 240,
+          "monthlyQueriesUsed": 9,
+          "monthlyLimit": 500,
+          "cacheKey": "2026-10-03_2026-10-04_32037"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ],
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 9,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    },\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {\n    \"2026-10-03_2026-10-04_32037\": {\n      \"timestamp\": 1790935200000,\n      \"ttlMinutes\": 240,\n      \"startDate\": \"2026-10-03\",\n      \"endDate\": \"2026-10-04\",\n      \"matches\": [\n        {\n          \"id\": \"twizzit-1\",\n          \"twizzitId\": \"1\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"09u05\",\n          \"homeTeam\": \"Dendermonde Heren 1\",\n          \"awayTeam\": \"Dragons\",\n          \"displayMatchText\": \"Dendermonde Heren 1 - Dragons\",\n          \"category\": \"Heren\",\n          \"isHome\": true,\n          \"field\": \"Veld 1 (Waterveld)\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 09:05:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-3\",\n          \"twizzitId\": \"3\",\n          \"day\": \"Saturday\",\n          \"dateStr\": \"Za 3 oktober\",\n          \"time\": \"14u00\",\n          \"homeTeam\": \"D-Mon Dames 1\",\n          \"awayTeam\": \"Antwerp\",\n          \"displayMatchText\": \"Antwerp - D-Mon Dames 1\",\n          \"category\": \"Seniors\",\n          \"isHome\": false,\n          \"field\": \"Uitwedstrijd\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-03 14:00:00\"\n          }\n        },\n        {\n          \"id\": \"twizzit-2\",\n          \"twizzitId\": \"2\",\n          \"day\": \"Sunday\",\n          \"dateStr\": \"Zo 4 oktober\",\n          \"time\": \"12u15\",\n          \"homeTeam\": \"D-Mon U12G-1\",\n          \"awayTeam\": \"Gantoise\",\n          \"displayMatchText\": \"D-Mon U12G-1 - Gantoise\",\n          \"category\": \"U12\",\n          \"isHome\": true,\n          \"field\": \"Veld 2\",\n          \"status\": \"scheduled\",\n          \"rawEvent\": {\n            \"start\": \"2026-10-04 12:15:00\",\n            \"end\": \"2026-10-04 13:15:00\",\n            \"address\": \"Veld 2\"\n          }\n        }\n      ],\n      \"rawCount\": 4,\n      \"homeMatchesCount\": 2\n    }\n  }\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "events failure is counted": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "Twizzit Events API error (503): {\"error\":\"unavailable\"}"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Twizzit Fetch Error:",
+        "Twizzit Events API error (503): {\"error\":\"unavailable\"}"
+      ]
+    ]
+  },
+  "invalid event response": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "Unexpected response format from Twizzit events API"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/events?organization-ids%5B%5D=32037&start-date=2026-10-03&end-date=2026-10-04&limit=150",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/events\",\n      \"description\": \"Matchen voor 2026-10-03 t/m 2026-10-04\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Twizzit Fetch Error:",
+        "Unexpected response format from Twizzit events API"
+      ]
+    ]
+  },
+  "season cache and forced refresh": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "orgId": "32037",
+          "username": "tw-user",
+          "connected": true,
+          "tokenActive": true,
+          "currentSeason": {
+            "name": "2026-2027",
+            "current-organizations": [
+              "32037"
+            ]
+          },
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "orgId": "32037",
+          "username": "tw-user",
+          "connected": true,
+          "tokenActive": true,
+          "currentSeason": {
+            "name": "2026-2027",
+            "current-organizations": [
+              "32037"
+            ]
+          },
+          "cached": true,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "monthlyQueriesUsed": 8,
+          "monthlyLimit": 500
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "orgId": "32037",
+          "username": "tw-user",
+          "connected": true,
+          "tokenActive": true,
+          "currentSeason": {
+            "name": "2026-2027",
+            "current-organizations": [
+              "32037"
+            ]
+          },
+          "cached": false,
+          "cachedAt": "2026-10-02T10:00:00.000Z",
+          "monthlyQueriesUsed": 9,
+          "monthlyLimit": 500
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://app.twizzit.com/v2/api/authenticate",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "body": [
+          [
+            "username",
+            "tw-user"
+          ],
+          [
+            "password",
+            "tw-pass"
+          ]
+        ]
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/seasons?organization-ids[]=32037",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      },
+      {
+        "url": "https://app.twizzit.com/v2/api/seasons?organization-ids[]=32037",
+        "method": "GET",
+        "headers": {
+          "Authorization": "Bearer tw-token"
+        }
+      }
+    ],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 8,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/seasons\",\n      \"description\": \"Actief seizoen ophalen\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {},\n  \"seasons\": {\n    \"timestamp\": 1790935200000,\n    \"ttlMinutes\": 1440,\n    \"data\": {\n      \"name\": \"2026-2027\",\n      \"current-organizations\": [\n        \"32037\"\n      ]\n    }\n  }\n}"
+      ],
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 9,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": [\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/seasons\",\n      \"description\": \"Actief seizoen ophalen\"\n    },\n    {\n      \"timestamp\": \"2026-10-02T10:00:00.000Z\",\n      \"endpoint\": \"/v2/api/seasons\",\n      \"description\": \"Actief seizoen ophalen\"\n    }\n  ],\n  \"lastQueryAt\": \"2026-10-02T10:00:00.000Z\"\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {},\n  \"seasons\": {\n    \"timestamp\": 1790935200000,\n    \"ttlMinutes\": 1440,\n    \"data\": {\n      \"name\": \"2026-2027\",\n      \"current-organizations\": [\n        \"32037\"\n      ]\n    }\n  }\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "monthly reset and TTL validation": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "stats": {
+            "month": "2026-10",
+            "queriesCount": 0,
+            "monthlyLimit": 500,
+            "defaultTtlMinutes": 240,
+            "history": []
+          },
+          "cachedRangesCount": 0,
+          "cachedRanges": []
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "defaultTtlMinutes": 15
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "defaultTtlMinutes": 10080
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "error": "Ongeldige TTL waarde (15 - 10080 minuten toegestaan)"
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "error": "Ongeldige TTL waarde (15 - 10080 minuten toegestaan)"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "Twizzit cache succesvol gewist.",
+          "monthlyQueriesUsed": 0,
+          "monthlyLimit": 500
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 0,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 240,\n  \"history\": []\n}"
+      ],
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 0,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 15,\n  \"history\": []\n}"
+      ],
+      [
+        "data/twizzit-stats.json",
+        "{\n  \"month\": \"2026-10\",\n  \"queriesCount\": 0,\n  \"monthlyLimit\": 500,\n  \"defaultTtlMinutes\": 10080,\n  \"history\": []\n}"
+      ],
+      [
+        "data/twizzit-cache.json",
+        "{\n  \"matches\": {}\n}"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "photo upload replacement deletion and reset": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": [
+          {
+            "id": "photo-1",
+            "title": "Youth Team Huddle (D-Mon Blauw & Rood)",
+            "photographer": "Coach Sarah",
+            "url": "/photos/photo-1.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-2",
+            "title": "Hockey Turf Match Sprint",
+            "photographer": "Coach Thomas",
+            "url": "/photos/photo-2.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-3",
+            "title": "Junior Stick Dribble & Balcontrole",
+            "photographer": "Coach Bart",
+            "url": "/photos/photo-3.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-4",
+            "title": "Team High-Five & Overwinning",
+            "photographer": "Coach Pieter",
+            "url": "/photos/photo-4.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-5",
+            "title": "Goalie Uitrusting & Veldactie",
+            "photographer": "Coach Dimitri",
+            "url": "/photos/photo-5.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-6",
+            "title": "Avondtraining D-Mon Waterveld",
+            "photographer": "Coach Elena",
+            "url": "/photos/photo-6.jpg",
+            "aspectRatio": "9:16"
+          }
+        ]
+      },
+      {
+        "status": 200,
+        "body": {
+          "id": "uploaded",
+          "title": "Team",
+          "photographer": "Clublid",
+          "url": "/uploads/uploaded.png",
+          "isUserUploaded": true,
+          "aspectRatio": "1:1",
+          "uploadedAt": "2026-10-02T10:00:00.000Z"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "id": "uploaded",
+          "title": "Nieuwe Clubfoto",
+          "photographer": "Clublid",
+          "url": "/uploads/uploaded.webp",
+          "isUserUploaded": true,
+          "aspectRatio": "1:1",
+          "uploadedAt": "2026-10-02T10:00:00.000Z"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "remainingCount": 6
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "id": "photo-1",
+            "title": "Youth Team Huddle (D-Mon Blauw & Rood)",
+            "photographer": "Coach Sarah",
+            "url": "/photos/photo-1.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-2",
+            "title": "Hockey Turf Match Sprint",
+            "photographer": "Coach Thomas",
+            "url": "/photos/photo-2.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-3",
+            "title": "Junior Stick Dribble & Balcontrole",
+            "photographer": "Coach Bart",
+            "url": "/photos/photo-3.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-4",
+            "title": "Team High-Five & Overwinning",
+            "photographer": "Coach Pieter",
+            "url": "/photos/photo-4.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-5",
+            "title": "Goalie Uitrusting & Veldactie",
+            "photographer": "Coach Dimitri",
+            "url": "/photos/photo-5.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-6",
+            "title": "Avondtraining D-Mon Waterveld",
+            "photographer": "Coach Elena",
+            "url": "/photos/photo-6.jpg",
+            "aspectRatio": "9:16"
+          }
+        ]
+      }
+    ],
+    "calls": [],
+    "writes": [
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ],
+      [
+        "public/uploads/uploaded.png",
+        {
+          "base64": "YWJj"
+        }
+      ],
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"uploaded\",\n    \"title\": \"Team\",\n    \"photographer\": \"Clublid\",\n    \"url\": \"/uploads/uploaded.png\",\n    \"isUserUploaded\": true,\n    \"aspectRatio\": \"1:1\",\n    \"uploadedAt\": \"2026-10-02T10:00:00.000Z\"\n  },\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ],
+      [
+        "public/uploads/uploaded.webp",
+        {
+          "base64": "ZGVm"
+        }
+      ],
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"uploaded\",\n    \"title\": \"Nieuwe Clubfoto\",\n    \"photographer\": \"Clublid\",\n    \"url\": \"/uploads/uploaded.webp\",\n    \"isUserUploaded\": true,\n    \"aspectRatio\": \"1:1\",\n    \"uploadedAt\": \"2026-10-02T10:00:00.000Z\"\n  },\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ],
+      [
+        "delete",
+        "public/uploads/uploaded.webp"
+      ],
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ],
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "photo validation and empty pool reseeding": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "error": "url is required"
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "id": "photo-1",
+            "title": "Youth Team Huddle (D-Mon Blauw & Rood)",
+            "photographer": "Coach Sarah",
+            "url": "/photos/photo-1.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-2",
+            "title": "Hockey Turf Match Sprint",
+            "photographer": "Coach Thomas",
+            "url": "/photos/photo-2.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-3",
+            "title": "Junior Stick Dribble & Balcontrole",
+            "photographer": "Coach Bart",
+            "url": "/photos/photo-3.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-4",
+            "title": "Team High-Five & Overwinning",
+            "photographer": "Coach Pieter",
+            "url": "/photos/photo-4.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-5",
+            "title": "Goalie Uitrusting & Veldactie",
+            "photographer": "Coach Dimitri",
+            "url": "/photos/photo-5.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-6",
+            "title": "Avondtraining D-Mon Waterveld",
+            "photographer": "Coach Elena",
+            "url": "/photos/photo-6.jpg",
+            "aspectRatio": "9:16"
+          }
+        ]
+      }
+    ],
+    "calls": [],
+    "writes": [
+      [
+        "data/photos.json",
+        "[\n  {\n    \"id\": \"photo-1\",\n    \"title\": \"Youth Team Huddle (D-Mon Blauw & Rood)\",\n    \"photographer\": \"Coach Sarah\",\n    \"url\": \"/photos/photo-1.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-2\",\n    \"title\": \"Hockey Turf Match Sprint\",\n    \"photographer\": \"Coach Thomas\",\n    \"url\": \"/photos/photo-2.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-3\",\n    \"title\": \"Junior Stick Dribble & Balcontrole\",\n    \"photographer\": \"Coach Bart\",\n    \"url\": \"/photos/photo-3.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-4\",\n    \"title\": \"Team High-Five & Overwinning\",\n    \"photographer\": \"Coach Pieter\",\n    \"url\": \"/photos/photo-4.jpg\",\n    \"aspectRatio\": \"1:1\"\n  },\n  {\n    \"id\": \"photo-5\",\n    \"title\": \"Goalie Uitrusting & Veldactie\",\n    \"photographer\": \"Coach Dimitri\",\n    \"url\": \"/photos/photo-5.jpg\",\n    \"aspectRatio\": \"9:16\"\n  },\n  {\n    \"id\": \"photo-6\",\n    \"title\": \"Avondtraining D-Mon Waterveld\",\n    \"photographer\": \"Coach Elena\",\n    \"url\": \"/photos/photo-6.jpg\",\n    \"aspectRatio\": \"9:16\"\n  }\n]"
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "photo JSON write failures remain swallowed": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "id": "photo-1790935200000",
+          "title": "Nieuwe Clubfoto",
+          "photographer": "Clublid",
+          "url": "/existing.jpg",
+          "isUserUploaded": true,
+          "aspectRatio": "1:1",
+          "uploadedAt": "2026-10-02T10:00:00.000Z"
+        }
+      },
+      {
+        "status": 200,
+        "body": [
+          {
+            "id": "photo-1",
+            "title": "Youth Team Huddle (D-Mon Blauw & Rood)",
+            "photographer": "Coach Sarah",
+            "url": "/photos/photo-1.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-2",
+            "title": "Hockey Turf Match Sprint",
+            "photographer": "Coach Thomas",
+            "url": "/photos/photo-2.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-3",
+            "title": "Junior Stick Dribble & Balcontrole",
+            "photographer": "Coach Bart",
+            "url": "/photos/photo-3.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-4",
+            "title": "Team High-Five & Overwinning",
+            "photographer": "Coach Pieter",
+            "url": "/photos/photo-4.jpg",
+            "aspectRatio": "1:1"
+          },
+          {
+            "id": "photo-5",
+            "title": "Goalie Uitrusting & Veldactie",
+            "photographer": "Coach Dimitri",
+            "url": "/photos/photo-5.jpg",
+            "aspectRatio": "9:16"
+          },
+          {
+            "id": "photo-6",
+            "title": "Avondtraining D-Mon Waterveld",
+            "photographer": "Coach Elena",
+            "url": "/photos/photo-6.jpg",
+            "aspectRatio": "9:16"
+          }
+        ]
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "error",
+        "Error writing photos.json:",
+        "fixture disk write failed"
+      ],
+      [
+        "error",
+        "Error writing photos.json:",
+        "fixture disk write failed"
+      ],
+      [
+        "error",
+        "Error writing photos.json:",
+        "fixture disk write failed"
+      ]
+    ]
+  },
+  "Instagram status and Story publication": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "connected": true,
+          "accountId": "ig-account",
+          "accountName": "D-MON Hockey",
+          "accountUsername": "dmon_hockey",
+          "mode": "live",
+          "scopes": [
+            "instagram_basic",
+            "instagram_content_publish",
+            "pages_show_list"
+          ]
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "id": "ig-published",
+          "mediaType": "STORY",
+          "permalink": "https://www.instagram.com/dmon_hockey/",
+          "publicImageUrl": "https://cdn.example/image.jpg",
+          "message": "Succesvol gepubliceerd naar @dmon_hockey als Story! ID: ig-published"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "FINISHED"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "id": "ig-published"
+        }
+      ]
+    ]
+  },
+  "Instagram feed publication": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "id": "ig-published",
+          "mediaType": "POST",
+          "permalink": "https://www.instagram.com/dmon_hockey/",
+          "publicImageUrl": "https://cdn.example/image.jpg",
+          "message": "Succesvol gepubliceerd naar @dmon_hockey als Post! ID: ig-published"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "caption",
+            "Club caption"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "FINISHED"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "id": "ig-published"
+        }
+      ]
+    ]
+  },
+  "Instagram missing credentials": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "connected": false,
+          "accountId": "ig-account",
+          "accountName": "D-MON Hockey",
+          "accountUsername": "dmon_hockey",
+          "mode": "simulation",
+          "scopes": [
+            "instagram_basic",
+            "instagram_content_publish",
+            "pages_show_list"
+          ]
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "error": "Instagram API credentials (account ID of access token) ontbreken op de server."
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "Instagram invalid images": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "error": "Geen geldige Base64 afbeelding (data:image/png) ontvangen."
+        }
+      },
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "error": "Ongeldige Base64 structuur."
+        }
+      }
+    ],
+    "calls": [],
+    "writes": [],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ]
+    ]
+  },
+  "Instagram container-error": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "step": "create_container",
+          "error": "Container rejected",
+          "metaError": {
+            "message": "Container rejected"
+          }
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "error": {
+            "message": "Container rejected"
+          }
+        }
+      ]
+    ]
+  },
+  "Instagram missing-container": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 500,
+        "body": {
+          "success": false,
+          "error": "Geen creation ID ontvangen van Meta."
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {}
+      ]
+    ]
+  },
+  "Instagram processing-error": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "step": "container_processing",
+          "error": "Processing rejected"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "ERROR",
+          "status": "Processing rejected"
+        }
+      ]
+    ]
+  },
+  "Instagram poll-timeout": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "id": "ig-published",
+          "mediaType": "STORY",
+          "permalink": "https://www.instagram.com/dmon_hockey/",
+          "publicImageUrl": "https://cdn.example/image.jpg",
+          "message": "Succesvol gepubliceerd naar @dmon_hockey als Story! ID: ig-published"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 2:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 3:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 4:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 5:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 6:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 7:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 8:",
+        {
+          "status_code": "IN_PROGRESS"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "id": "ig-published"
+        }
+      ]
+    ]
+  },
+  "Instagram publish-error": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 400,
+        "body": {
+          "success": false,
+          "step": "publish_media",
+          "error": "Publish rejected",
+          "metaError": {
+            "message": "Publish rejected"
+          }
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://cdn.example/image.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Direct CDN URL for Meta crawler: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://cdn.example/image.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "FINISHED"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "error": {
+            "message": "Publish rejected"
+          }
+        }
+      ]
+    ]
+  },
+  "CDN fallback forwarded origin": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "id": "ig-published",
+          "mediaType": "STORY",
+          "permalink": "https://www.instagram.com/dmon_hockey/",
+          "publicImageUrl": "https://club.example/generated/story_1790935200000.jpg",
+          "message": "Succesvol gepubliceerd naar @dmon_hockey als Story! ID: ig-published"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://club.example/generated/story_1790935200000.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://club.example/generated/story_1790935200000.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "FINISHED"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "id": "ig-published"
+        }
+      ]
+    ]
+  },
+  "CDN fallback configured base URL": {
+    "routes": [
+      "POST /api/auth/login",
+      "GET /api/auth/verify",
+      "GET /api/health",
+      "GET /api/twizzit/status",
+      "GET /api/twizzit/matches",
+      "POST /api/twizzit/cache/clear",
+      "GET /api/twizzit/cache/stats",
+      "POST /api/twizzit/cache/ttl",
+      "GET /api/photos",
+      "POST /api/photos",
+      "DELETE /api/photos/:id",
+      "POST /api/photos/reset",
+      "GET /api/instagram/status",
+      "POST /api/instagram/publish",
+      "GET *"
+    ],
+    "statics": [
+      [
+        "/generated",
+        "/app/public/generated"
+      ],
+      [
+        "/uploads",
+        "/app/public/uploads"
+      ],
+      [
+        "/photos",
+        "/app/public/photos"
+      ],
+      [
+        "/",
+        "/app/public"
+      ],
+      [
+        "/",
+        "/app/dist"
+      ]
+    ],
+    "responses": [
+      {
+        "status": 200,
+        "body": {
+          "success": true,
+          "id": "ig-published",
+          "mediaType": "STORY",
+          "permalink": "https://www.instagram.com/dmon_hockey/",
+          "publicImageUrl": "https://club.example/generated/story_1790935200000.jpg",
+          "message": "Succesvol gepubliceerd naar @dmon_hockey als Story! ID: ig-published"
+        }
+      }
+    ],
+    "calls": [
+      {
+        "url": "https://uguu.se/upload.php",
+        "method": "POST",
+        "body": [
+          [
+            "files[]",
+            {
+              "name": "story_1790935200000.jpg",
+              "size": 3,
+              "type": "image/jpeg"
+            }
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media",
+        "method": "POST",
+        "body": [
+          [
+            "image_url",
+            "https://club.example/generated/story_1790935200000.jpg"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ],
+          [
+            "media_type",
+            "STORIES"
+          ]
+        ]
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-container?fields=status_code,status&access_token=ig-token",
+        "method": "GET"
+      },
+      {
+        "url": "https://graph.facebook.com/v20.0/ig-account/media_publish",
+        "method": "POST",
+        "body": [
+          [
+            "creation_id",
+            "ig-container"
+          ],
+          [
+            "access_token",
+            "ig-token"
+          ]
+        ]
+      }
+    ],
+    "writes": [
+      [
+        "public/generated/story_1790935200000.jpg",
+        {
+          "base64": "YWJj"
+        }
+      ]
+    ],
+    "logs": [
+      [
+        "log",
+        "D-Mon Hockey Server running on http://0.0.0.0:3000"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Final Public Image URL: https://club.example/generated/story_1790935200000.jpg"
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Container creation result:",
+        {
+          "id": "ig-container"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Status check attempt 1:",
+        {
+          "status_code": "FINISHED"
+        }
+      ],
+      [
+        "log",
+        "[Instagram Publishing] Media publish result:",
+        {
+          "id": "ig-published"
+        }
+      ]
+    ]
+  }
+}

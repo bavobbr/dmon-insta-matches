@@ -1,6 +1,9 @@
+import { publishWeekendPublication } from '../services/publicationService';
+import { instagramApiPublisher } from '../publishing/InstagramApiPublisher';
+import type { RenderedMedia } from '../../shared/types/rendering';
 import React, { useState } from 'react';
-import { InstagramConfig, GraphicSettings, Match } from '../types';
-import { BRAND_COLORS } from '../brand';
+import { InstagramConfig, GraphicSettings, Match } from '../../shared/types';
+import { BRAND_COLORS } from '../../brand';
 import { 
   X, 
   Instagram, 
@@ -22,34 +25,7 @@ interface InstagramPublisherModalProps {
   onUpdateConfig: (newConfig: Partial<InstagramConfig>) => void;
   settings: GraphicSettings;
   activeMatches: Match[];
-  graphicDataUrl?: string;
-}
-
-// Helper to guarantee JPEG encoding for Meta Graph API (Instagram strictly requires JPEG format)
-async function ensureJpegDataUrl(dataUrl: string): Promise<string> {
-  if (dataUrl.startsWith('data:image/jpeg') || dataUrl.startsWith('data:image/jpg')) {
-    return dataUrl;
-  }
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      const c = document.createElement('canvas');
-      c.width = img.naturalWidth || img.width;
-      c.height = img.naturalHeight || img.height;
-      const ctx = c.getContext('2d');
-      if (ctx) {
-        ctx.fillStyle = '#06478D'; // Fallback background
-        ctx.fillRect(0, 0, c.width, c.height);
-        ctx.drawImage(img, 0, 0);
-        resolve(c.toDataURL('image/jpeg', 0.95));
-      } else {
-        resolve(dataUrl);
-      }
-    };
-    img.onerror = () => resolve(dataUrl);
-    img.src = dataUrl;
-  });
+  renderedMedia?: RenderedMedia;
 }
 
 export const InstagramPublisherModal: React.FC<InstagramPublisherModalProps> = ({
@@ -59,13 +35,15 @@ export const InstagramPublisherModal: React.FC<InstagramPublisherModalProps> = (
   onUpdateConfig,
   settings,
   activeMatches,
-  graphicDataUrl
+  renderedMedia
 }) => {
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishSuccess, setPublishSuccess] = useState(false);
   const [publishedId, setPublishedId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copiedCaption, setCopiedCaption] = useState(false);
+
+  const graphicDataUrl = renderedMedia?.dataUrl;
 
   if (!isOpen) return null;
 
@@ -90,28 +68,9 @@ export const InstagramPublisherModal: React.FC<InstagramPublisherModalProps> = (
         throw new Error("Het grafische canvas is nog niet gerenderd. Sluit dit venster en klik opnieuw op 'Post naar IG Stories'.");
       }
 
-      // Ensure graphic is JPEG format for Meta Instagram Content Publishing API
-      const jpegDataUrl = await ensureJpegDataUrl(graphicDataUrl);
+      const data = await publishWeekendPublication(renderedMedia!, instagramApiPublisher, { mediaType: 'STORY', caption: captionText });
 
-      const res = await fetch('/api/instagram/publish', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mediaType: 'STORY',
-          caption: captionText,
-          imageDataUrl: jpegDataUrl
-        })
-      });
-
-      const data = await res.json();
-      console.log('Instagram Publish API Response:', data);
-
-      if (!res.ok || !data.success) {
-        const detail = data.metaError?.message || data.error || 'Fout bij publiceren naar Instagram';
-        throw new Error(detail);
-      }
-
-      setPublishedId(data.id);
+      setPublishedId(data.id!);
       setPublishSuccess(true);
       confetti({
         particleCount: 80,

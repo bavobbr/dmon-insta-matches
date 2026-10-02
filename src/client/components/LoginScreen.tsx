@@ -1,7 +1,8 @@
+import { authApi } from '../services/authApi';
 import React, { useState } from 'react';
-import { DMON_LOGO_URL, BRAND_COLORS } from '../brand';
+import { DMON_LOGO_URL, BRAND_COLORS } from '../../brand';
 import { Lock, User, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
-import { AuthUser } from '../types';
+import { AuthUser } from '../../shared/types';
 
 interface LoginScreenProps {
   onLoginSuccess: (user: AuthUser) => void;
@@ -19,14 +20,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
     setIsLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: username.trim(),
-          password: password.trim()
-        })
-      });
+      const res = await authApi.login(username, password);
 
       const data = await res.json();
       if (!res.ok || !data.success) {

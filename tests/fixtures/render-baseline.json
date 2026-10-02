@@ -1,0 +1,56 @@
+{
+  "story Saturday": {
+    "width": 1080,
+    "height": 1920,
+    "operations": 72,
+    "hash": "6c6c3cf72b61ed433f53682f059e76d1f55e00323a5a85dff6398848e713f5ee"
+  },
+  "story Sunday": {
+    "width": 1080,
+    "height": 1920,
+    "operations": 72,
+    "hash": "08b3e042366c763cfc7308ec770b96c8df7668306f862a7f047dfae27245ab31"
+  },
+  "story Weekend": {
+    "width": 1080,
+    "height": 1920,
+    "operations": 147,
+    "hash": "3e4c3da6d32a75f613f64e885f1630acb958b0627c772f1385c05d8fc5116ac4"
+  },
+  "square Saturday": {
+    "width": 1080,
+    "height": 1080,
+    "operations": 72,
+    "hash": "db31198e8126980e361f727febe7c8e67114c98f8297942191df5eb5669ff3ae"
+  },
+  "square Sunday": {
+    "width": 1080,
+    "height": 1080,
+    "operations": 72,
+    "hash": "87d0618db09d041477cdfece2e3d1bd737a2f3114e6aebfb61ed73efa895a2aa"
+  },
+  "square Weekend": {
+    "width": 1080,
+    "height": 1080,
+    "operations": 147,
+    "hash": "29541096e7334298fe39d93583d6e085b9ace8a8fececa6d2316aa4e902041f9"
+  },
+  "square stacked weekend": {
+    "width": 1080,
+    "height": 1080,
+    "operations": 150,
+    "hash": "d8df5e5c86e70a5a5d8b35b806d7598b242de2125c0ad8aebc676ec8b6041173"
+  },
+  "empty weekend": {
+    "width": 1080,
+    "height": 1920,
+    "operations": 119,
+    "hash": "de3fce2f3a1239809eddf3093050063cbea7130db82339f23467e48ad4bdcf0c"
+  },
+  "crowded weekend": {
+    "width": 1080,
+    "height": 1920,
+    "operations": 475,
+    "hash": "ee3ee4a4492903178ec7ab0f72d238eb081a7ffc829181e7d71092ce36adca15"
+  }
+}

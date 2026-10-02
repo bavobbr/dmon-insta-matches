@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Match, TwizzitConfig } from '../types';
+import { Match, TwizzitConfig } from '../../shared/types';
+import { getWeekendRange } from '../../shared/domain/weekend';
 import { 
   Key, 
   RefreshCw, 
@@ -56,6 +57,10 @@ export const TwizzitSyncPanel: React.FC<TwizzitSyncPanelProps> = ({
   const [filterMode, setFilterMode] = useState<'home' | 'all' | 'away'>('home');
   const [showAddForm, setShowAddForm] = useState(false);
   const [showForceConfirm, setShowForceConfirm] = useState(false);
+  const today = new Date();
+  const upcomingWeekend = getWeekendRange(today);
+  const previousWeekend = getWeekendRange(today, -1);
+  const nextWeekend = getWeekendRange(today, 1);
 
   // Cache & Rate Limit metrics
   const cacheInfo = config.cacheInfo;
@@ -340,36 +345,36 @@ export const TwizzitSyncPanel: React.FC<TwizzitSyncPanelProps> = ({
 
         <div className="flex flex-wrap items-center gap-2">
           <button
-            onClick={() => onDateRangeChange('2026-09-12', '2026-09-13')}
+            onClick={() => onDateRangeChange(upcomingWeekend.startDate, upcomingWeekend.endDate)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold font-['Outfit'] transition-all cursor-pointer ${
-              startDate === '2026-09-12' && endDate === '2026-09-13'
+              startDate === upcomingWeekend.startDate && endDate === upcomingWeekend.endDate
                 ? 'bg-[#06478D] text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            🔥 Komend Weekend (12 - 13 Sep 2026)
+            🔥 Komend Weekend ({upcomingWeekend.label})
           </button>
 
           <button
-            onClick={() => onDateRangeChange('2026-09-05', '2026-09-06')}
+            onClick={() => onDateRangeChange(previousWeekend.startDate, previousWeekend.endDate)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold font-['Outfit'] transition-all cursor-pointer ${
-              startDate === '2026-09-05' && endDate === '2026-09-06'
+              startDate === previousWeekend.startDate && endDate === previousWeekend.endDate
                 ? 'bg-[#06478D] text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            Vorig Weekend (5 - 6 Sep 2026)
+            Vorig Weekend ({previousWeekend.label})
           </button>
 
           <button
-            onClick={() => onDateRangeChange('2026-09-19', '2026-09-20')}
+            onClick={() => onDateRangeChange(nextWeekend.startDate, nextWeekend.endDate)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold font-['Outfit'] transition-all cursor-pointer ${
-              startDate === '2026-09-19' && endDate === '2026-09-20'
+              startDate === nextWeekend.startDate && endDate === nextWeekend.endDate
                 ? 'bg-[#06478D] text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            Volgend Weekend (19 - 20 Sep 2026)
+            Volgend Weekend ({nextWeekend.label})
           </button>
 
           <div className="flex items-center gap-1.5 pl-2 border-l border-slate-200">

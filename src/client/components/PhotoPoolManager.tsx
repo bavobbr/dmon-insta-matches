@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { PhotoPoolItem } from '../types';
+import { PhotoPoolItem } from '../../shared/types';
 import { Upload, Shuffle, Check, Plus, Trash2, Camera, Image as ImageIcon, Loader2 } from 'lucide-react';
 
 interface PhotoPoolManagerProps {

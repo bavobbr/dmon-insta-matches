@@ -8,7 +8,7 @@ Automated match graphic generator and Instagram Stories publisher for D-Mon Hock
 
 - **Twizzit API Synchronization**:
   - Automated retrieval of weekend fixtures via the official Twizzit API (Organization `#32037`).
-  - Intelligent server-side caching (4-hour default TTL) & quota guard (500 queries/month limit) to conserve Twizzit API rate limits.
+  - Server-side caching (4-hour default TTL) and monthly query accounting (reported limit: 500) to conserve Twizzit API rate limits.
   - Smart home game filter: only home fixtures (`isHome: true`) are selected for publication.
 - **Canva-style Graphic Generator**:
   - High-resolution rendering of Instagram Stories (9:16 / 1080×1920) and Feed posts (1:1 / 1080×1080) via HTML5 Canvas.
@@ -18,11 +18,11 @@ Automated match graphic generator and Instagram Stories publisher for D-Mon Hock
   - Dynamic highlight for flagship teams (e.g., Dames 1 & Heren 1) and pitch allocation (Pitch 1, Pitch 2).
 - **Instagram Publishing Engine**:
   - Direct 1-click publishing to Instagram Stories via the Meta Graph API.
-  - High-res JPEG export for manual sharing across WhatsApp, Facebook, or web.
+  - High-resolution PNG download for manual sharing; JPEG encoding for Instagram publishing.
   - Auto-generated caption with relevant hashtags and match summaries.
 - **Weekly Automation & Decision Engine**:
-  - Scheduled publication slot (e.g., every Friday morning).
-  - **No-Match Rule**: If no home fixtures are scheduled for the weekend, graphic generation and publication are skipped automatically, logging a clean audit status.
+  - Schedule configuration UI (e.g., every Friday morning) and a manual pipeline simulation; no background scheduler is implemented.
+  - **No-Match Rule**: The manual pipeline simulation logs a skipped decision when there are no home fixtures. A simulated POSTED decision does not publish to Meta.
 - **Access Protection**:
   - Password-protected login system for coaches and communications coordinators.
 
@@ -57,30 +57,23 @@ The application uses a **high-resolution HTML5 Canvas rendering engine** (`1080x
 
 ```mermaid
 flowchart TD
-    A["Start: Weekly trigger or Coach click"] --> B["Twizzit API Synchronization"]
-    B --> C{"Are there home fixtures?"}
-    
-    C -- No --> D["No-Match Rule: Skip graphic creation"]
-    D --> E["Audit log: 0 home matches registered"]
-    
-    C -- Yes --> F["Data normalization & grouping by day & kickoff time"]
-    F --> G["Select action photo & brand kit options"]
-    
-    subgraph HTML5_Canvas_Engine ["HTML5 Canvas Rendering Engine (1080x1920)"]
-        H["Layer 1: Photo Aspect-Cover + Gradient Overlay"] --> I["Layer 2: Club Navy Canvas + SVG Pitch Markings"]
-        I --> J["Layer 3: D-Mon Crest Badge + Dynamic Header"]
-        J --> K["Layer 4: Adaptive Fixtures Grid & Time Block Grouping"]
-        K --> L["Layer 5: Footer, Volunteer Badge & Handle @dmon_hockey"]
-    end
-    
-    G --> H
-    L --> M["Export: Canvas to JPEG (95% Quality)"]
-    
-    M --> N{"Publishing Method"}
-    N -- Download --> O["Direct JPEG Download to device"]
-    N -- Instagram Story --> P["POST /api/instagram/publish"]
-    P --> Q["Meta Graph API: Upload to Media Container"]
-    Q --> R["Meta Graph API: Publish Container to IG Story"]
+    UI["React UI / client API services"] --> Routes["Express routes"]
+    Routes --> TwizzitService["Twizzit service: auth, cache, stats"]
+    TwizzitService --> Twizzit["Twizzit HTTP client"]
+    Twizzit --> Mapper["Twizzit mapper"]
+    Mapper --> Match["Normalized Match arrays"]
+    Match --> Publication["Shared publication builder"]
+    Publication --> Pipeline["Browser publication service"]
+    Pipeline --> Rendering["RenderingService / MediaRenderer"]
+    Rendering --> Canvas["CanvasRenderer: existing drawing code"]
+    Canvas --> Media["RenderedMedia"]
+    Media --> Download["PNG download"]
+    Media --> BrowserPublisher["InstagramApiPublisher: JPEG payload"]
+    BrowserPublisher --> IGRoute["Existing POST /api/instagram/publish"]
+    IGRoute --> Publisher["InstagramPublisher / MediaPublisher"]
+    Publisher --> Hosting["Generated media repository / CDN hosting"]
+    Publisher --> Meta["Meta Graph HTTP client"]
+    Match --> Simulation["Weekly UI simulation: count / skip / synthetic log"]
 ```
 
 ---
@@ -89,38 +82,35 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor User as Coach / Scheduler
-    participant UI as Web Interface (React)
-    participant Engine as Canvas Renderer (Offscreen)
-    participant Server as Node.js Backend (Express)
-    participant Twizzit as Twizzit API v2
-    participant Meta as Meta Graph API (Instagram)
+    actor User
+    participant UI as React / client services
+    participant Routes as Express routes
+    participant Data as Twizzit service
+    participant Rendering as Publication service / RenderingService
+    participant Canvas as CanvasRenderer
+    participant Publisher as InstagramPublisher
+    participant Meta as Meta Graph API
 
-    User->>UI: Select weekend / Click 'Generate Visual'
-    UI->>Server: GET /api/twizzit/matches?startDate=...&endDate=...
-    Server->>Twizzit: GET /v2/api/events (Bearer Token)
-    Twizzit-->>Server: JSON (Matches & Teams)
-    Server-->>UI: Filtered home matches (isHome: true)
-    
-    UI->>Engine: renderGraphicToCanvas(options)
-    Note over Engine: 1. Load cached photo & club crest<br/>2. Calculate split ratio (44/56%)<br/>3. Compute adaptive font scaling<br/>4. Render time-slot blocks & badges
-    Engine-->>UI: Rendered on Canvas (1080x1920 px)
-
-    alt Direct Download
-        User->>UI: Click 'Download JPEG'
-        UI-->>User: matchday-dmon-[date].jpg
-    else Direct Publish to Instagram
-        User->>UI: Click 'Publish to Instagram Stories'
-        UI->>Engine: canvas.toDataURL('image/jpeg', 0.95)
-        UI->>Server: POST /api/instagram/publish (Base64 payload)
-        Server->>Server: Write to temporary public file
-        Server->>Meta: POST /IG_USER_ID/media (image_url, media_type=STORIES)
-        Meta-->>Server: Creation ID (Media container)
-        Server->>Meta: POST /IG_USER_ID/media_publish (creation_id)
-        Meta-->>Server: Success (Post ID)
-        Server-->>UI: 200 OK (Published)
-        UI-->>User: Confirmation modal with link to Instagram
+    User->>UI: Select weekend
+    UI->>Routes: GET /api/twizzit/matches (unchanged query)
+    Routes->>Data: getMatches(options)
+    Note over Data: Cache hit or token + HTTP client + mapper + stats
+    Data-->>UI: Existing response with Match arrays and homeMatches
+    UI->>Rendering: generateWeekendPublication(publication, renderingService)
+    Rendering->>Canvas: render(publication)
+    Canvas-->>UI: Existing Canvas preview / RenderedMedia
+    alt Download
+        User->>UI: Download PNG
+        UI-->>User: dmon-hockey-[day]-[format].png
+    else Publish Story
+        User->>UI: Open modal and confirm publication
+        UI->>Routes: POST /api/instagram/publish (existing JPEG data URL body)
+        Routes->>Publisher: publish(RenderedMedia, options)
+        Note over Publisher: Save story_[timestamp].jpg, upload to CDN or use local URL
+        Publisher->>Meta: Create media container
+        Publisher->>Meta: Poll container status
+        Publisher->>Meta: Publish container
+        Publisher-->>UI: Existing response / confirmation modal
     end
 ```
 
@@ -165,5 +155,36 @@ npm start
 
 ## 🔒 Security & Credential Isolation
 
-All third-party API credentials, tokens, and secrets are handled strictly server-side (`server.ts`) and are never leaked to client browsers. This repository contains zero hardcoded secrets or access tokens.
+Third-party credentials are read by `src/server/config/env.ts` and used only by server modules. Client services call the existing HTTP endpoints. The existing authentication/session model and fallback secret remain unchanged.
 
+
+## Architecture and verification
+
+```text
+server.ts                       Express/Vite bootstrap; port 3000
+src/server/app.ts               Middleware, route composition and static assets
+src/server/config/              Server environment variables and filesystem paths
+src/server/auth/                Existing login/session behavior
+src/server/twizzit/              HTTP client, token cache, mapping, JSON cache/statistics, service
+src/server/photos/              Photo service and filesystem repository
+src/server/persistence/         Generated image files and public URL construction
+src/server/publishing/          Publisher interface, CDN hosting, Instagram orchestration/HTTP client
+src/server/routes/              Existing API paths and response/error translation
+src/shared/types/               Match, publication, rendering, publishing, photo and UI models
+src/shared/domain/              Date helpers, match grouping and publication preparation
+src/client/components/          Existing React screens
+src/client/services/            HTTP adapters, rendering and publication orchestration
+src/client/rendering/           CanvasRenderer, unchanged drawing code and JPEG conversion
+src/client/publishing/          Browser adapter to the existing Instagram endpoint
+src/client/automation/          Existing weekly simulation; no background scheduler
+src/client/persistence/         Existing IndexedDB/localStorage behavior
+src/client/hooks/               Canvas preview surface adapter
+```
+
+Canvas is the only active `MediaRenderer`. `MatchPublication` contains normalized matches and the existing settings; `RenderingService` accepts an injected renderer and returns `RenderedMedia`. A future CanvaRenderer would implement this interface and be registered at the browser composition/preview adapter. Its publishing export must provide the JPEG data URL accepted by the current endpoint. No Canva integration, configuration or OAuth is implemented.
+
+`InstagramPublisher` implements `MediaPublisher`, orchestrating the existing generated-file/CDN handling and Meta calls. Browser and server responsibilities remain separate because Canvas runs in the browser.
+
+Run `npm run lint`, `npm run build` and `npm test`. Tests use Node's built-in test runner with the existing tsx/esbuild dependencies. They cover deterministic domain logic, browser services/storage, the weekly simulation, 28 API parity scenarios captured before extraction, and nine original Canvas drawing traces. HTTP and files are mocked in the parity suite; it does not use live credentials. Drawing traces use deterministic text measurements and are not pixel screenshot tests.
+
+See [the refactor baseline and manual checklist](docs/refactor-baseline.md) and [the refactor report and file inventory](docs/refactor-report.md).

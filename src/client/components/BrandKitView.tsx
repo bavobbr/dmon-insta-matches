@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRAND_COLORS, BRAND_GRADIENTS, DMON_LOGO_URL, getHockeyFieldLinesSvg } from '../brand';
+import { BRAND_COLORS, BRAND_GRADIENTS, DMON_LOGO_URL, getHockeyFieldLinesSvg } from '../../brand';
 import { Copy, Check, Palette, Sparkles, Shield, Type, Layers, Download } from 'lucide-react';
 
 export const BrandKitView: React.FC = () => {

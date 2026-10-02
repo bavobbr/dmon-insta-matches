@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { Match, GraphicSettings, PhotoPoolItem, GraphicFormat } from '../types';
-import { renderGraphicToCanvas } from '../utils/canvasRenderer';
-import { BRAND_COLORS } from '../brand';
-import { getSuggestedSubtitle, formatShortDateSlash } from '../utils/dateFormatter';
+import React, { useState, useMemo } from 'react';
+import { Match, GraphicSettings, PhotoPoolItem, GraphicFormat } from '../../shared/types';
+import { useCanvasPreview } from '../hooks/useCanvasPreview';
+import { buildMatchPublication } from '../../shared/domain/publicationBuilder';
+import type { RenderedMedia } from '../../shared/types/rendering';
+import { BRAND_COLORS } from '../../brand';
+import { getSuggestedSubtitle, formatShortDateSlash } from '../../shared/domain/dateFormatter';
 import { 
   Download, 
   Share2, 
@@ -26,7 +28,7 @@ interface GraphicPreviewProps {
   photoPool: PhotoPoolItem[];
   settings: GraphicSettings;
   onUpdateSettings: (newSettings: Partial<GraphicSettings>) => void;
-  onOpenInstagramModal: (dataUrl?: string) => void;
+  onOpenInstagramModal: (media?: RenderedMedia) => void;
   onRandomizePhoto: () => void;
 }
 
@@ -39,50 +41,19 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
   onOpenInstagramModal,
   onRandomizePhoto
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [isRendering, setIsRendering] = useState<boolean>(false);
   const [copiedCaption, setCopiedCaption] = useState<boolean>(false);
   const [showSettingsDrawer, setShowSettingsDrawer] = useState<boolean>(false);
 
-  const activeMatches = useMemo(() => {
-    if (settings.selectedDay === 'Sunday') return sundayMatches;
-    if (settings.selectedDay === 'Saturday') return saturdayMatches;
-    return [...saturdayMatches, ...sundayMatches];
-  }, [settings.selectedDay, saturdayMatches, sundayMatches]);
-
+  const publication = useMemo(() => buildMatchPublication([...saturdayMatches, ...sundayMatches], settings), [settings, saturdayMatches, sundayMatches]);
+  const activeMatches = publication.matches;
+  const { canvasRef, isRendering, getMedia } = useCanvasPreview(publication);
   const isStory = settings.format === 'story';
-
-  // Trigger canvas re-render when dependencies change
-  useEffect(() => {
-    let isCancelled = false;
-    const render = async () => {
-      if (!canvasRef.current) return;
-      setIsRendering(true);
-      try {
-        await renderGraphicToCanvas({
-          canvas: canvasRef.current,
-          matches: activeMatches,
-          saturdayMatches,
-          sundayMatches,
-          settings
-        });
-      } catch (err) {
-        console.error('Rendering failed:', err);
-      } finally {
-        if (!isCancelled) setIsRendering(false);
-      }
-    };
-
-    render();
-    return () => {
-      isCancelled = true;
-    };
-  }, [settings, activeMatches, saturdayMatches, sundayMatches]);
 
   // Download high-resolution PNG
   const handleDownload = () => {
-    if (!canvasRef.current) return;
-    const dataUrl = canvasRef.current.toDataURL('image/png', 1.0);
+    const media = getMedia('image/png');
+    if (!media) return;
+    const dataUrl = media.dataUrl!;
     const link = document.createElement('a');
     const daySlug = settings.selectedDay.toLowerCase();
     const formatSlug = settings.format;
@@ -290,8 +261,7 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
           <button
             id="btn-publish-instagram-modal"
             onClick={() => {
-              const dataUrl = canvasRef.current ? canvasRef.current.toDataURL('image/jpeg', 0.95) : undefined;
-              onOpenInstagramModal(dataUrl);
+              onOpenInstagramModal(getMedia('image/jpeg'));
             }}
             className="flex-1 min-w-[160px] flex items-center justify-center space-x-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-95 text-white px-5 py-3 rounded-xl font-['Outfit'] font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all active:scale-98 cursor-pointer"
           >
