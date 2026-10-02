@@ -15,6 +15,7 @@ Automated match graphic generator and Instagram Stories publisher for D-Mon Hock
   - Official brand palette: D-Mon Navy Blue (`#06478D`), Vibrant Scarlet (`#E30613`), Crisp White & Accents.
   - Official D-Mon crest badge with automatic dark/light background detection.
   - Custom drag-and-drop photo upload with persistent local photo library.
+  - Photo framing: 35–55% layout split, 100–300% zoom, direct drag/pinch interaction, framing presets and precision offsets. Framing is saved with graphic settings and shared by preview, PNG download and JPEG publication.
   - Dynamic highlight for flagship teams (e.g., Dames 1 & Heren 1) and pitch allocation (Pitch 1, Pitch 2).
 - **Instagram Publishing Engine**:
   - Direct 1-click publishing to Instagram Stories via the Meta Graph API.
@@ -188,3 +189,11 @@ Canvas is the only active `MediaRenderer`. `MatchPublication` contains normalize
 Run `npm run lint`, `npm run build` and `npm test`. Tests use Node's built-in test runner with the existing tsx/esbuild dependencies. They cover deterministic domain logic, browser services/storage, the weekly simulation, 28 API parity scenarios captured before extraction, and nine original Canvas drawing traces. HTTP and files are mocked in the parity suite; it does not use live credentials. Drawing traces use deterministic text measurements and are not pixel screenshot tests.
 
 See [the refactor baseline and manual checklist](docs/refactor-baseline.md) and [the refactor report and file inventory](docs/refactor-report.md).
+
+## Photo framing
+
+Use **Foto & uitsnede** below the preview to set photo width and zoom, choose Centreer/Boven/Onder/Links/Rechts, or restore the centered 100% crop. **Nauwkeurig bijstellen** exposes horizontal and vertical framing sliders. Drag directly on the photo, scroll to zoom around the pointer, or use single-finger pan/two-finger pinch on touch screens. The fixtures pane remains available for normal page scrolling.
+
+The cover calculation clamps framing at the image edges. Relative framing persists between Story and square; default photo widths are 44% and 42%, while a custom split is retained. Older saved settings default to 100% zoom and centered framing. The composition grid and zoom pill are preview editing aids and are excluded from exported graphics. Download/publication buttons wait for the current render so an older asynchronous render cannot be exported.
+
+`npm test` includes geometry/cover/zoom-anchor and render-cancellation checks alongside the existing parity tests. `npm run test:framing-browser` performs real mouse/touch interactions in headless Chrome and compares the PNG download and JPEG publication body against the visible canvas. It uses temporary data/browser storage and fixture API responses; no live Instagram publication is sent. This optional check expects Chrome at `/usr/bin/google-chrome`, or set `CHROME_BIN` to its executable. Its screenshot and temporary fixture path are printed after the check.

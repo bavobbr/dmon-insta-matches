@@ -21,7 +21,7 @@ export async function compileDrawing(baselineSource?: string) {
   })).outputFiles[0].text;
 }
 
-export async function renderTrace(code: string, publication: RenderRequest) {
+export async function renderTrace(code: string, publication: RenderRequest, shouldCommit?: () => boolean) {
   const trace: unknown[] = [];
   let nextCanvas = 0;
   const hash = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -50,6 +50,6 @@ export async function renderTrace(code: string, publication: RenderRequest) {
   const module = { exports: {} as any };
   vm.runInNewContext(code, { module, exports: module.exports, Image, document: { createElement: createCanvas }, console });
   const canvas = createCanvas();
-  await module.exports.renderGraphicToCanvas({ canvas, ...publication });
+  await module.exports.renderGraphicToCanvas({ canvas, ...publication, shouldCommit });
   return { width: canvas.width, height: canvas.height, operations: trace.length, hash: hash(JSON.stringify(trace)) };
 }

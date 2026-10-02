@@ -1,4 +1,5 @@
 import { groupMatchesByTime } from '../../../shared/domain/matchGrouping';
+import { getPhotoPlacement, getPhotoSplit } from '../../../shared/domain/photoFraming';
 import { Match, GraphicSettings } from '../../../shared/types';
 import { BRAND_COLORS, getLogoDataUrl, getHockeyFieldLinesSvg } from '../../../brand';
 import { formatShortDateSlash } from '../../../shared/domain/dateFormatter';
@@ -9,6 +10,7 @@ export interface RenderOptions {
   saturdayMatches?: Match[];
   sundayMatches?: Match[];
   settings: GraphicSettings;
+  shouldCommit?: () => boolean;
 }
 
 // Image cache to avoid re-decoding images on every render pass
@@ -220,7 +222,8 @@ export async function renderGraphicToCanvas({
   matches,
   saturdayMatches,
   sundayMatches,
-  settings
+  settings,
+  shouldCommit
 }: RenderOptions): Promise<void> {
   const isStory = settings.format === 'story';
   const width = 1080;
@@ -239,9 +242,7 @@ export async function renderGraphicToCanvas({
 
   // Layout split calculation
   const isWeekend = settings.selectedDay === 'Weekend';
-  // If weekend with many matches, give the match content slightly more width (54-58%)
-  const defaultSplit = isWeekend ? (isStory ? 0.44 : 0.42) : 0.48;
-  const splitRatio = settings.splitRatio || defaultSplit;
+  const splitRatio = getPhotoSplit(settings);
   const splitX = Math.round(width * splitRatio);
 
   // 1. Draw Background & Photo on Left Side
@@ -254,28 +255,8 @@ export async function renderGraphicToCanvas({
     ctx.rect(0, 0, splitX, height);
     ctx.clip();
 
-    // Scale and center-crop the photo to fill (0, 0, splitX, height)
-    const imgRatio = photoImg.width / photoImg.height;
-    const boxRatio = splitX / height;
-
-    let drawW: number;
-    let drawH: number;
-    let drawX: number;
-    let drawY: number;
-
-    if (imgRatio > boxRatio) {
-      drawH = height;
-      drawW = height * imgRatio;
-      drawX = (splitX - drawW) / 2;
-      drawY = 0;
-    } else {
-      drawW = splitX;
-      drawH = splitX / imgRatio;
-      drawX = 0;
-      drawY = (height - drawH) / 2;
-    }
-
-    ctx.drawImage(photoImg, drawX, drawY, drawW, drawH);
+    const placement = getPhotoPlacement(photoImg, { width: splitX, height }, settings);
+    ctx.drawImage(photoImg, placement.x, placement.y, placement.width, placement.height);
 
     // Soft dark gradient at the bottom of the photo to ensure volunteer text readability
     const photoGrad = ctx.createLinearGradient(0, height - 320, 0, height);
@@ -618,6 +599,7 @@ export async function renderGraphicToCanvas({
   ctx.restore();
 
   // Atomically blit rendered offscreen buffer to visible target canvas
+  if (shouldCommit && !shouldCommit()) return;
   if (canvas.width !== width) canvas.width = width;
   if (canvas.height !== height) canvas.height = height;
   const targetCtx = canvas.getContext('2d');

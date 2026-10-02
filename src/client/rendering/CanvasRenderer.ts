@@ -2,10 +2,10 @@ import type { MediaRenderer, RenderRequest, RenderedMedia } from '../../shared/t
 import { renderGraphicToCanvas } from './canvas/drawing';
 
 export class CanvasRenderer implements MediaRenderer {
-  constructor(private readonly canvas: HTMLCanvasElement) {}
+  constructor(private readonly canvas: HTMLCanvasElement, private readonly shouldCommit?: () => boolean) {}
 
   async render(publication: RenderRequest): Promise<RenderedMedia> {
-    await renderGraphicToCanvas({ canvas: this.canvas, ...publication });
+    await renderGraphicToCanvas({ canvas: this.canvas, ...publication, shouldCommit: this.shouldCommit });
     // Export stays lazy: preview rendering never previously encoded an image.
     const renderer = this;
     return {

@@ -6,6 +6,9 @@ export interface GraphicSettings {
   customTitle: string; // e.g. "Thuismatches"
   customSubtitle?: string; // e.g. "Za 5 & Zo 6 september"
   photoUrl: string;
+  photoZoom?: number; // 1 = cover, up to 3x magnification
+  photoOffsetX?: number; // -1 = focus left, +1 = focus right
+  photoOffsetY?: number; // -1 = focus top, +1 = focus bottom
   volunteerBadgeText: string; // "Bar open dankzij onze vrijwilligers"
   showVolunteerBadge: boolean;
   showFieldLines: boolean;
@@ -13,7 +16,7 @@ export interface GraphicSettings {
   accentColor: string; // #B62C17
   primaryColor: string; // #06478D
   gradientOverlay: boolean;
-  splitRatio: number; // 0.40 to 0.55
+  splitRatio: number; // 0.35 to 0.55
   weekendLayout?: 'stacked' | 'columns'; // for Square format when showing both days
 }
 

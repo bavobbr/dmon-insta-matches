@@ -33,3 +33,13 @@ test('Canvas capture retains PNG/JPEG encoding and quality', () => {
   assert.equal(renderer.captureMedia('image/jpeg').dataUrl, 'data:image/jpeg;base64,abc');
   assert.deepEqual(calls, [['image/png', 1.0], ['image/jpeg', 0.95]]);
 });
+
+test('obsolete renders do not overwrite the preview after a framing adjustment', async () => {
+  const publication = buildMatchPublication([], { ...settings, photoZoom: 2, photoOffsetX: 0.5 });
+  const cancelled = await renderTrace(await drawingCode, publication, () => false);
+  assert.equal(cancelled.width, 0);
+  assert.equal(cancelled.height, 0);
+  const current = await renderTrace(await drawingCode, publication, () => true);
+  assert.equal(current.width, 1080);
+  assert.equal(current.height, 1920);
+});

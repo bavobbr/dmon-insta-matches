@@ -3,3 +3,4 @@ import './domain.test';
 import './serverParity.test';
 import './rendering.test';
 import './clientServices.test';
+import './photoFraming.test';

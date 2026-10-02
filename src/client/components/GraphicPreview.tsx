@@ -1,6 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Match, GraphicSettings, PhotoPoolItem, GraphicFormat } from '../../shared/types';
 import { useCanvasPreview } from '../hooks/useCanvasPreview';
+import { usePhotoFraming } from '../hooks/usePhotoFraming';
+import { PhotoFramingToolbar } from './PhotoFramingToolbar';
+import { getPhotoSplit, normalizePhotoFraming } from '../../shared/domain/photoFraming';
 import { buildMatchPublication } from '../../shared/domain/publicationBuilder';
 import type { RenderedMedia } from '../../shared/types/rendering';
 import { BRAND_COLORS } from '../../brand';
@@ -47,7 +50,18 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
   const publication = useMemo(() => buildMatchPublication([...saturdayMatches, ...sundayMatches], settings), [settings, saturdayMatches, sundayMatches]);
   const activeMatches = publication.matches;
   const { canvasRef, isRendering, getMedia } = useCanvasPreview(publication);
+  const framing = usePhotoFraming(settings, onUpdateSettings);
+  const photoSplit = Math.round(1080 * getPhotoSplit(settings)) / 1080;
+  const zoomPercent = Math.round(normalizePhotoFraming(settings).photoZoom * 100);
   const isStory = settings.format === 'story';
+  const changeFormat = (format: GraphicFormat) => {
+    const oldDefault = isStory ? 0.44 : 0.42;
+    onUpdateSettings({
+      format,
+      splitRatio: Math.abs(getPhotoSplit(settings) - oldDefault) < 0.0001
+        ? (format === 'story' ? 0.44 : 0.42) : getPhotoSplit(settings),
+    });
+  };
 
   // Download high-resolution PNG
   const handleDownload = () => {
@@ -110,7 +124,7 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
           <div className="flex bg-slate-100 p-1 rounded-xl shrink-0">
             <button
               id="btn-format-story"
-              onClick={() => onUpdateSettings({ format: 'story' })}
+              onClick={() => changeFormat('story')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 settings.format === 'story'
                   ? 'bg-[#06478D] text-white shadow-xs'
@@ -121,7 +135,7 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
             </button>
             <button
               id="btn-format-square"
-              onClick={() => onUpdateSettings({ format: 'square' })}
+              onClick={() => changeFormat('square')}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 settings.format === 'square'
                   ? 'bg-[#06478D] text-white shadow-xs'
@@ -228,6 +242,26 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
               className="w-full h-full object-contain block"
             />
 
+            {/* Editing aids never become part of the exported Canvas. */}
+            <div
+              ref={framing.paneRef}
+              {...framing.pointerHandlers}
+              aria-label="Foto verslepen; scroll of knijp om te zoomen"
+              className={`absolute inset-y-0 left-0 select-none ${framing.isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+              style={{ width: `${photoSplit * 100}%`, touchAction: 'none' }}
+            >
+              {framing.isFraming && (
+                <>
+                  <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none" aria-hidden="true">
+                    {Array.from({ length: 9 }, (_, index) => <div key={index} className="border border-white/30" />)}
+                  </div>
+                  <div role="status" className="absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold text-white pointer-events-none">
+                    Zoom: {zoomPercent}%
+                  </div>
+                </>
+              )}
+            </div>
+
             {/* Quick Floating Action: Randomize Photo on Graphic */}
             <button
               id="btn-quick-shuffle"
@@ -240,19 +274,22 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
             </button>
 
             {/* Badge Indicator & Status */}
-            <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-[#06478D]/90 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-xs border border-white/20 shadow-sm">
+            <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-[#06478D]/90 text-white text-[10px] font-bold px-2 py-1 rounded-md backdrop-blur-xs border border-white/20 shadow-sm pointer-events-none">
               {isRendering && <RefreshCw className="w-2.5 h-2.5 animate-spin text-[#BD9D64]" />}
               <span>{isStory ? '1080 × 1920 PX' : '1080 × 1080 PX'}</span>
             </div>
           </div>
         </div>
 
+        <PhotoFramingToolbar settings={settings} onAdjust={framing.adjust} />
+
         {/* Primary Action Buttons underneath the preview */}
         <div className="w-full max-w-lg mt-5 flex flex-wrap gap-3 justify-center">
           <button
             id="btn-download-graphic"
+            disabled={isRendering}
             onClick={handleDownload}
-            className="flex-1 min-w-[160px] flex items-center justify-center space-x-2 bg-[#06478D] hover:bg-[#053c77] text-white px-5 py-3 rounded-xl font-['Outfit'] font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all active:scale-98 cursor-pointer"
+            className="flex-1 min-w-[160px] flex items-center justify-center space-x-2 bg-[#06478D] hover:bg-[#053c77] text-white px-5 py-3 rounded-xl font-['Outfit'] font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all active:scale-98 cursor-pointer disabled:opacity-50 disabled:cursor-wait"
           >
             <Download className="w-4 h-4 text-[#BD9D64]" />
             <span>Download PNG</span>
@@ -260,10 +297,11 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
 
           <button
             id="btn-publish-instagram-modal"
+            disabled={isRendering}
             onClick={() => {
               onOpenInstagramModal(getMedia('image/jpeg'));
             }}
-            className="flex-1 min-w-[160px] flex items-center justify-center space-x-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-95 text-white px-5 py-3 rounded-xl font-['Outfit'] font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all active:scale-98 cursor-pointer"
+            className="flex-1 min-w-[160px] flex items-center justify-center space-x-2 bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-95 text-white px-5 py-3 rounded-xl font-['Outfit'] font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all active:scale-98 cursor-pointer disabled:opacity-50 disabled:cursor-wait"
           >
             <Instagram className="w-4 h-4 text-white" />
             <span>Post naar IG Stories</span>
@@ -503,15 +541,15 @@ export const GraphicPreview: React.FC<GraphicPreviewProps> = ({
             <div className="p-2 rounded-lg border border-slate-200">
               <div className="flex justify-between text-[11px] font-semibold text-slate-600 mb-1">
                 <span>Split Verhouding</span>
-                <span>{Math.round(settings.splitRatio * 100)}% Foto</span>
+                <span>{Math.round(getPhotoSplit(settings) * 100)}% Foto</span>
               </div>
               <input
                 type="range"
                 min="0.35"
                 max="0.55"
                 step="0.01"
-                value={settings.splitRatio}
-                onChange={(e) => onUpdateSettings({ splitRatio: parseFloat(e.target.value) })}
+                value={getPhotoSplit(settings)}
+                onChange={(e) => framing.adjust({ splitRatio: parseFloat(e.target.value) })}
                 className="w-full accent-[#06478D] h-1.5 cursor-pointer"
               />
             </div>

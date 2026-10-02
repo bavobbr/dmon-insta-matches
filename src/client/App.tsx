@@ -95,7 +95,10 @@ export default function App() {
     accentColor: BRAND_COLORS.clubrood,
     primaryColor: BRAND_COLORS.clubblauw,
     gradientOverlay: false,
-    splitRatio: 0.46,
+    splitRatio: 0.44,
+    photoZoom: 1,
+    photoOffsetX: 0,
+    photoOffsetY: 0,
     weekendLayout: 'columns'
   });
 

@@ -8,6 +8,7 @@ import { generateWeekendPublication } from '../services/publicationService';
 export function useCanvasPreview(publication: MatchPublication) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isRendering, setIsRendering] = useState(false);
+  const completedPublication = useRef<MatchPublication | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
@@ -15,8 +16,9 @@ export function useCanvasPreview(publication: MatchPublication) {
       if (!canvasRef.current) return;
       setIsRendering(true);
       try {
-        const rendering = new RenderingService(new CanvasRenderer(canvasRef.current));
+        const rendering = new RenderingService(new CanvasRenderer(canvasRef.current, () => !isCancelled));
         await generateWeekendPublication(publication, rendering);
+        if (!isCancelled) completedPublication.current = publication;
       } catch (err) {
         console.error('Rendering failed:', err);
       } finally {
@@ -27,8 +29,8 @@ export function useCanvasPreview(publication: MatchPublication) {
     return () => { isCancelled = true; };
   }, [publication]);
 
-  const getMedia = (mimeType: 'image/png' | 'image/jpeg') => canvasRef.current
+  const getMedia = (mimeType: 'image/png' | 'image/jpeg') => canvasRef.current && completedPublication.current === publication
     ? new CanvasRenderer(canvasRef.current).captureMedia(mimeType) : undefined;
 
-  return { canvasRef, isRendering, getMedia };
+  return { canvasRef, isRendering: isRendering || completedPublication.current !== publication, getMedia };
 }
